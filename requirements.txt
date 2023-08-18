@@ -1,3 +1,4 @@
 Rebound
 Streamlit
 Matplotlib
+Seaborn
