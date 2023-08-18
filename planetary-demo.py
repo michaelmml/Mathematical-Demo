@@ -38,6 +38,10 @@ for planet in selected_planets:
 # Input for simulation time
 simulation_time = st.number_input('Simulation Time (years):', min_value=0.01, value=1.0)
 
+# Inputs for controlling the view (zoom) of the plot
+x_range = st.slider('X Range (AU):', min_value=1, max_value=100, value=35)
+y_range = st.slider('Y Range (AU):', min_value=1, max_value=100, value=35)
+
 # Button to start the simulation
 if st.button('Run Simulation'):
     # Lists to store paths
@@ -52,12 +56,20 @@ if st.button('Run Simulation'):
             paths_y[i].append(particle.y)
 
     # Plot the paths
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=(10, 10))
+    plt.style.use('seaborn-darkgrid') # Set a background style
     ax.axis('equal')
-    ax.set_xlim(-35, 35) # You may need to adjust these limits based on the planets included in the simulation
-    ax.set_ylim(-35, 35) # You may need to adjust these limits based on the planets included in the simulation
+    ax.set_xlim(-x_range, x_range) # Controlled by the user
+    ax.set_ylim(-y_range, y_range) # Controlled by the user
+    colors = plt.cm.tab10.colors # Use a color map for the planets
+
     for i, planet in enumerate(selected_planets):
-        ax.plot(paths_x[i], paths_y[i], label=planet)
-    ax.plot(0, 0, 'yo', label='Sun') # Sun's position
-    ax.legend()
+        ax.plot(paths_x[i], paths_y[i], label=planet, lw=2, color=colors[i % len(colors)]) # Line width and color
+    ax.plot(0, 0, 'yo', markersize=20, label='Sun') # Sun's position
+
+    ax.set_xlabel('X (AU)', fontsize=12)
+    ax.set_ylabel('Y (AU)', fontsize=12)
+    ax.set_title('Planetary Orbits in the Solar System', fontsize=16)
+    ax.legend(fontsize=10, loc='upper right')
+
     st.pyplot(fig)
