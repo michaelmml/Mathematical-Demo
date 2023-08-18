@@ -68,8 +68,8 @@ if st.button('Run Simulation'):
     # Plot the paths
     fig, ax = plt.subplots(figsize=(10, 10))
     # Set plot with dark background
-    plt.style.use('dark_background')
-    # plt.style.use('seaborn-darkgrid') # Set a background style
+    # plt.style.use('dark_background')
+    plt.style.use('seaborn-darkgrid')
     ax.axis('equal')
     ax.set_xlim(-x_range, x_range) # Controlled by the user
     ax.set_ylim(-y_range, y_range) # Controlled by the user
