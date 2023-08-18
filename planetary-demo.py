@@ -4,51 +4,60 @@ import matplotlib.pyplot as plt
 
 # Initialize REBOUND simulation
 sim = rebound.Simulation()
-sim.units = ('AU', 'yr', 'Msun') # Set units to astronomical units, years, and solar masses
+sim.units = ('AU', 'yr', 'Msun')  # Set units to astronomical units, years, and solar masses
 
 # Add Sun
-sim.add(m=1) # Sun mass in solar masses
+sim.add(m=1)  # Sun mass in solar masses
 
-# Predefined planets
-PREDEFINED_PLANETS = [
-    "Earth", "Jupiter", "Mars", "Venus", "Saturn", "Mercury", "Uranus", "Neptune"
-]
+# Predefined planets with default values (mass in solar masses, semi-major axis in AU, eccentricity)
+PREDEFINED_PLANETS = {
+    "Earth": [3e-6, 1, 0.0167],
+    "Jupiter": [9.54e-4, 5.20, 0.0489],
+    "Mars": [3.21e-7, 1.52, 0.0934],
+    "Venus": [2.45e-6, 0.72, 0.0068],
+    "Saturn": [2.86e-4, 9.58, 0.0537],
+    "Mercury": [1.65e-7, 0.39, 0.2056],
+    "Uranus": [4.36e-5, 19.19, 0.0472],
+    "Neptune": [5.15e-5, 30.07, 0.0086]
+}
 
 # Streamlit Interface
 st.title('Orbit of Planets - Gravity Simulation with REBOUND')
 
 # Allow user to select planets and define initial states
-selected_planets = st.multiselect('Select Planets:', options=PREDEFINED_PLANETS)
+selected_planets = st.multiselect('Select Planets:', options=list(PREDEFINED_PLANETS.keys()))
 
 for planet in selected_planets:
     st.subheader(f"Initial Conditions for {planet}")
-    mass = st.number_input(f'Mass of {planet} (solar masses)', key=f'mass_{planet}')
-    semi_major_axis = st.number_input(f'Semi-Major Axis of {planet} (AU)', key=f'sma_{planet}')
-    eccentricity = st.number_input(f'Eccentricity of {planet}', min_value=0.0, max_value=1.0, key=f'ecc_{planet}')
+    defaults = PREDEFINED_PLANETS[planet]
+    mass = st.number_input(f'Mass of {planet} (solar masses)', value=defaults[0], key=f'mass_{planet}')
+    semi_major_axis = st.number_input(f'Semi-Major Axis of {planet} (AU)', value=defaults[1], key=f'sma_{planet}')
+    eccentricity = st.number_input(f'Eccentricity of {planet}', min_value=0.0, max_value=1.0, value=defaults[2], key=f'ecc_{planet}')
     sim.add(m=mass, a=semi_major_axis, e=eccentricity)
 
 # Input for simulation time
-simulation_time = st.number_input('Simulation Time (years):', min_value=0.01)
+simulation_time = st.number_input('Simulation Time (years):', min_value=0.01, value=1.0)
 
 # Button to start the simulation
 if st.button('Run Simulation'):
     # Lists to store paths
-    paths_x = [[] for _ in range(sim.N)]
-    paths_y = [[] for _ in range(sim.N)]
+    paths_x = [[] for _ in range(sim.N - 1)] # Excluding the Sun
+    paths_y = [[] for _ in range(sim.N - 1)] # Excluding the Sun
 
     # Run the simulation, saving the paths
-    for t in range(100): # You can change this number to control the resolution of the path
+    for t in range(100):  # You can change this number to control the resolution of the path
         sim.integrate(t * simulation_time / 100.0)
-        for i, particle in enumerate(sim.particles[1:]): # Skip the Sun
+        for i, particle in enumerate(sim.particles[1:]):  # Skip the Sun
             paths_x[i].append(particle.x)
             paths_y[i].append(particle.y)
 
     # Plot the paths
-    fig, ax = plt.subplots(figsize=(8,8))
+    fig, ax = plt.subplots(figsize=(8, 8))
     ax.axis('equal')
-    ax.set_xlim(-2, 2)
-    ax.set_ylim(-2, 2)
+    ax.set_xlim(-35, 35) # You may need to adjust these limits based on the planets included in the simulation
+    ax.set_ylim(-35, 35) # You may need to adjust these limits based on the planets included in the simulation
     for i, planet in enumerate(selected_planets):
         ax.plot(paths_x[i], paths_y[i], label=planet)
+    ax.plot(0, 0, 'yo', label='Sun') # Sun's position
     ax.legend()
     st.pyplot(fig)
