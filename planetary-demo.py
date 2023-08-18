@@ -1,7 +1,6 @@
 import rebound
 import streamlit as st
 import matplotlib.pyplot as plt
-import seaborn
 
 # Initialize REBOUND simulation
 sim = rebound.Simulation()
