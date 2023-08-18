@@ -2,6 +2,16 @@ import rebound
 import streamlit as st
 import matplotlib.pyplot as plt
 
+# Customize CSS to make Streamlit's background black
+st.markdown("""
+<style>
+body {
+    background-color: black;
+    color: white;
+}
+</style>
+    """, unsafe_allow_html=True)
+
 # Initialize REBOUND simulation
 sim = rebound.Simulation()
 sim.units = ('AU', 'yr', 'Msun')  # Set units to astronomical units, years, and solar masses
@@ -57,7 +67,9 @@ if st.button('Run Simulation'):
 
     # Plot the paths
     fig, ax = plt.subplots(figsize=(10, 10))
-    plt.style.use('seaborn-darkgrid') # Set a background style
+    # Set plot with dark background
+    plt.style.use('dark_background')
+    # plt.style.use('seaborn-darkgrid') # Set a background style
     ax.axis('equal')
     ax.set_xlim(-x_range, x_range) # Controlled by the user
     ax.set_ylim(-y_range, y_range) # Controlled by the user
