@@ -4,16 +4,6 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-# Customize CSS to make Streamlit's background black
-st.markdown("""
-<style>
-body {
-    background-color: black;
-    color: white;
-}
-</style>
-    """, unsafe_allow_html=True)
-
 def planetaryorbit():
         # Initialize REBOUND simulation
         sim = rebound.Simulation()
