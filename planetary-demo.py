@@ -128,7 +128,7 @@ def gravitationalpotential():
         # V_m[mask] = np.nan
 
         ####### Compute GR potential V (Schwarzschild approximation) in meters and take into account of volume
-        V_m = potential(x_m, y_m, mass, radius * AU_TO_M)
+        V_m = potential(x_m, y_m, mass, radius * AU_TO_M, G)
         V_m[mask] = np.nan
         
         # Create 3D plot
@@ -166,17 +166,17 @@ def gravitationalpotential():
 
 
 # Compute gravitational potential
-def potential(x, y, mass, radius):
+def potential(x, y, mass, radius, grav):
             r = np.sqrt(x**2 + y**2)
             V = np.zeros_like(r)
             
             # Outside the sphere
             outside_mask = r >= radius
-            V[outside_mask] = -G * mass / r[outside_mask]
+            V[outside_mask] = -grav * mass / r[outside_mask]
         
             # Inside the sphere
             inside_mask = ~outside_mask
-            V[inside_mask] = -G * mass / (2 * radius**3) * (3 * radius**2 - r[inside_mask]**2)
+            V[inside_mask] = -grav * mass / (2 * radius**3) * (3 * radius**2 - r[inside_mask]**2)
         
             return V
 
