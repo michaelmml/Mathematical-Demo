@@ -2,3 +2,4 @@ Rebound
 Streamlit
 Matplotlib
 Seaborn
+numpy
