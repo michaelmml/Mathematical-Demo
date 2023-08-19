@@ -80,6 +80,7 @@ def planetaryorbit():
             st.pyplot(fig)
 
 def gravitationalpotential():
+        AU_TO_M = 149597870700
         # Selection of celestial objects with corresponding mass and radius in AU
         objects = {
             'Earth': {'mass': 5.972e24, 'radius': 6371000 / AU_TO_M},
