@@ -97,6 +97,9 @@ def gravitationalpotential():
         
         # Gravitational constant
         G = 6.67430e-11
+
+        # Speed of light
+        c = 299792458
         
         # Slider for x and y axis ranges in AU
         x_range = st.slider('Select X-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
