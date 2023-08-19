@@ -80,8 +80,18 @@ def planetaryorbit():
             st.pyplot(fig)
 
 def gravitationalpotential():
-        # Input for mass
-        mass = st.slider('Mass of the body (kg):', min_value=1.0, max_value=100.0, value=10.0)
+        # Selection of celestial objects
+        objects = {
+            'Earth': 5.972e24,
+            'Jupiter': 1.898e27,
+            'Sun': 1.989e30,
+            'Black Hole (10 solar masses)': 1.989e31
+        }
+        
+        selected_object = st.selectbox('Select a celestial object:', list(objects.keys()))
+        
+        # Corresponding mass of selected object
+        mass = objects[selected_object]
         
         # Gravitational constant
         G = 6.67430e-11
@@ -100,13 +110,13 @@ def gravitationalpotential():
         # Avoid division by zero
         r[r == 0] = 1e-9
         
-        # Compute GR potential V
+        # Compute GR potential V (Schwarzschild approximation)
         V = -G * mass / r + G * mass**2 / (c**2 * r**2)
         
         # Create 3D plot
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
-        plt.style.use('seaborn-darkgrid')
+        plt.style.use('dark_background')
         
         # Plot the surface
         surface = ax.plot_surface(x, y, V, cmap='viridis', linewidth=0, antialiased=True)
@@ -118,7 +128,7 @@ def gravitationalpotential():
         ax.set_xlabel('X (m)')
         ax.set_ylabel('Y (m)')
         ax.set_zlabel('Potential (Joules)')
-        ax.set_title('Gravitational Potential of a Body (GR)')
+        ax.set_title(f'Gravitational Potential of {selected_object} (GR approximation)')
         
         # Display plot in Streamlit
         st.pyplot(fig)
