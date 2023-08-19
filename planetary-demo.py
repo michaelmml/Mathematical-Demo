@@ -80,8 +80,6 @@ def planetaryorbit():
             st.pyplot(fig)
 
 def gravitationalpotential():
-        # Conversion factor from meters to AU
-        AU_TO_M = 149597870700
         # Selection of celestial objects with corresponding mass and radius in AU
         objects = {
             'Earth': {'mass': 5.972e24, 'radius': 6371000 / AU_TO_M},
@@ -99,12 +97,12 @@ def gravitationalpotential():
         # Gravitational constant
         G = 6.67430e-11
         
-        # Speed of light
-        c = 299792458
+        # Slider for x and y axis ranges in AU
+        x_range = st.slider('Select X-Axis Range (AU):', -1, 1, (-0.5, 0.5))
+        y_range = st.slider('Select Y-Axis Range (AU):', -1, 1, (-0.5, 0.5))
         
-        # Sliders for x and y axis ranges in AU
-        x_range = st.slider('Select X-Axis Range (AU):', -10, 10, (-1, 1))
-        y_range = st.slider('Select Y-Axis Range (AU):', -10, 10, (-1, 1))
+        # Input for how many multiples of the radius to stop the plot
+        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=1, value=2)
         
         # Convert selected ranges from AU to meters
         x_range_m = [r * AU_TO_M for r in x_range]
@@ -117,36 +115,24 @@ def gravitationalpotential():
         # Calculate r values (distances from the mass) in meters
         r_m = np.sqrt(x_m**2 + y_m**2)
         
-        # Only consider distances greater than the radius in meters
-        mask = r_m < radius * AU_TO_M
+        # Only consider distances greater than the specified multiples of the radius in meters
+        mask = r_m < radius * AU_TO_M * radius_multiplier
         r_m[mask] = np.nan
         
         # Compute GR potential V (Schwarzschild approximation) in meters
         V_m = -G * mass / r_m + G * mass**2 / (c**2 * r_m**2)
         V_m[mask] = np.nan
         
-        # Compute gradients of V with respect to x and y
-        V_x_m = np.gradient(V_m, axis=1)
-        V_y_m = np.gradient(V_m, axis=0)
-        V_x_m[mask] = np.nan
-        V_y_m[mask] = np.nan
-        
         # Create 3D plot
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
-        plt.style.use('seaborn')
+        plt.style.use('dark_background')
         
         # Plot the surface in AU
         surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, V_m, cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
-        # Add arrows to represent the gradients (subsample for visualization) in AU
-        step = 10
-        quiver_length = 1e6
-        quiver_color = 'lightgrey'
-        for i in range(0, V_x_m.shape[0], step):
-            for j in range(0, V_x_m.shape[1], step):
-                if ~np.isnan(V_x_m[i, j]) and ~np.isnan(V_y_m[i, j]):
-                    ax.quiver(x_m[i, j] / AU_TO_M, y_m[i, j] / AU_TO_M, V_m[i, j], V_x_m[i, j], V_y_m[i, j], 0, color=quiver_color, length=quiver_length, arrow_length_ratio=0.1, linewidth=0.5)
+        # Add contours to the plot in AU
+        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, V_m, 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
         ax.set_zlim(ax.get_zlim()[::-1])
