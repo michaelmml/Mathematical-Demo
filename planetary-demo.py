@@ -133,7 +133,7 @@ def gravitationalpotential():
         step = 5
         for i in range(0, V_x.shape[0], step):
             for j in range(0, V_x.shape[1], step):
-                ax.quiver(x[i, j], y[i, j], V[i, j], V_x[i, j], V_y[i, j], 0, color='r', length=1e9, arrow_length_ratio=0.1)
+                ax.quiver(x[i, j], y[i, j], V[i, j], V_x[i, j], V_y[i, j], 0, color='r', length=1e2, arrow_length_ratio=0.1)
         
         # Add color bar
         fig.colorbar(surface, ax=ax)
