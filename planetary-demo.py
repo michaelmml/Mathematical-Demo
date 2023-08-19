@@ -128,9 +128,17 @@ def gravitationalpotential():
         V_m[mask] = np.nan
         
         # Create 3D plot
+        # fig = plt.figure(figsize=(10, 10))
+        # ax = fig.add_subplot(111, projection='3d')
+        # plt.style.use('dark_background')
+
+        # Create 3D plot
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
-        plt.style.use('dark_background')
+        
+        # Set black background for the plot
+        ax.set_facecolor('black')
+        fig.patch.set_facecolor('black')
         
         # Plot the surface in AU
         surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, V_m, cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
@@ -141,17 +149,17 @@ def gravitationalpotential():
         # Flip the z-axis
         ax.set_zlim(ax.get_zlim()[::-1])
         
+        # Remove axis labels
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.set_zticklabels([])
+        
         # Add color bar
         fig.colorbar(surface, ax=ax)
         
-        # Labels and title in AU
-        ax.set_xlabel('X (AU)')
-        ax.set_ylabel('Y (AU)')
-        ax.set_zlabel('Potential (Joules)')
-        ax.set_title(f'Gravitational Potential of {selected_object} (GR approximation)')
-        
         # Display plot in Streamlit
         st.pyplot(fig)
+
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
