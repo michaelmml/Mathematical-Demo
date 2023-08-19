@@ -113,10 +113,13 @@ def gravitationalpotential():
         # Compute GR potential V (Schwarzschild approximation)
         V = -G * mass / r + G * mass**2 / (c**2 * r**2)
         
+        # Invert the z-axis
+        V = -V
+        
         # Create 3D plot
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
-        plt.style.use('dark_background')
+        plt.style.use('seaborn')
         
         # Plot the surface
         surface = ax.plot_surface(x, y, V, cmap='viridis', linewidth=0, antialiased=True)
@@ -129,6 +132,10 @@ def gravitationalpotential():
         ax.set_ylabel('Y (m)')
         ax.set_zlabel('Potential (Joules)')
         ax.set_title(f'Gravitational Potential of {selected_object} (GR approximation)')
+        
+        # Toggle for x-axis
+        if st.checkbox('Hide X-Axis'):
+            ax.set_xticks([])
         
         # Display plot in Streamlit
         st.pyplot(fig)
