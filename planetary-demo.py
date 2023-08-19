@@ -99,9 +99,13 @@ def gravitationalpotential():
         # Speed of light
         c = 299792458
         
-        # Grid of x, y values
-        x = np.linspace(-10, 10, 100)
-        y = np.linspace(-10, 10, 100)
+        # Sliders for x and y axis ranges
+        x_range = st.slider('Select X-Axis Range:', -100, 100, (-10, 10))
+        y_range = st.slider('Select Y-Axis Range:', -100, 100, (-10, 10))
+        
+        # Grid of x, y values based on selected ranges
+        x = np.linspace(x_range[0], x_range[1], 100)
+        y = np.linspace(y_range[0], y_range[1], 100)
         x, y = np.meshgrid(x, y)
         
         # Calculate r values (distances from the mass)
@@ -113,16 +117,13 @@ def gravitationalpotential():
         # Compute GR potential V (Schwarzschild approximation)
         V = -G * mass / r + G * mass**2 / (c**2 * r**2)
         
-        # Invert the z-axis
-        V = -V
-        
         # Create 3D plot
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
         plt.style.use('seaborn')
         
         # Plot the surface
-        surface = ax.plot_surface(x, y, V, cmap='viridis', linewidth=0, antialiased=True)
+        surface = ax.plot_surface(x, y, V, cmap='purples', linewidth=0, antialiased=True)
         
         # Add color bar
         fig.colorbar(surface, ax=ax)
@@ -132,10 +133,6 @@ def gravitationalpotential():
         ax.set_ylabel('Y (m)')
         ax.set_zlabel('Potential (Joules)')
         ax.set_title(f'Gravitational Potential of {selected_object} (GR approximation)')
-        
-        # Toggle for x-axis
-        if st.checkbox('Hide X-Axis'):
-            ax.set_xticks([])
         
         # Display plot in Streamlit
         st.pyplot(fig)
