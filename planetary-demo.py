@@ -99,8 +99,8 @@ def gravitationalpotential():
         G = 6.67430e-11
         
         # Slider for x and y axis ranges in AU
-        x_range = st.slider('Select X-Axis Range (AU):', -1, 1, (-0.5, 0.5))
-        y_range = st.slider('Select Y-Axis Range (AU):', -1, 1, (-0.5, 0.5))
+        x_range = st.slider('Select X-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
+        y_range = st.slider('Select Y-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
         
         # Input for how many multiples of the radius to stop the plot
         radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=1, value=2)
