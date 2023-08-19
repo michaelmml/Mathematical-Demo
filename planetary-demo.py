@@ -100,8 +100,8 @@ def gravitationalpotential():
         c = 299792458
         
         # Sliders for x and y axis ranges
-        x_range = st.slider('Select X-Axis Range:', -100, 100, (-10, 10))
-        y_range = st.slider('Select Y-Axis Range:', -100, 100, (-10, 10))
+        x_range = st.slider('Select X-Axis Range:', -1e9, 1e9, (-1e8, 1e8))
+        y_range = st.slider('Select Y-Axis Range:', -1e9, 1e9, (-1e8, 1e8))
         
         # Grid of x, y values based on selected ranges
         x = np.linspace(x_range[0], x_range[1], 100)
@@ -130,10 +130,11 @@ def gravitationalpotential():
         surface = ax.plot_surface(x, y, V, cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
         # Add arrows to represent the gradients (subsample for visualization)
-        step = 5
+        step = 10
+        quiver_length = 1e7
         for i in range(0, V_x.shape[0], step):
             for j in range(0, V_x.shape[1], step):
-                ax.quiver(x[i, j], y[i, j], V[i, j], V_x[i, j], V_y[i, j], 0, color='r', length=1e2, arrow_length_ratio=0.1)
+                ax.quiver(x[i, j], y[i, j], V[i, j], V_x[i, j], V_y[i, j], 0, color='r', length=quiver_length, arrow_length_ratio=0.1)
         
         # Add color bar
         fig.colorbar(surface, ax=ax)
