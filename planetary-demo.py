@@ -117,8 +117,8 @@ def gravitationalpotential():
         y_range_m = [r * AU_TO_M for r in y_range]
         
         # Grid of x, y values based on selected ranges in meters
-        x_m, y_m = np.meshgrid(np.linspace(x_range_m[0], x_range_m[1], 100),
-                               np.linspace(y_range_m[0], y_range_m[1], 100))
+        x_m, y_m = np.meshgrid(np.linspace(x_range_m[0], x_range_m[1], 200),
+                               np.linspace(y_range_m[0], y_range_m[1], 200))
         
         # Calculate r values (distances from the mass) in meters
         r_m = np.sqrt(x_m**2 + y_m**2)
@@ -154,7 +154,7 @@ def gravitationalpotential():
         surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.log(np.abs(V_m))), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
         # Add contours to the plot in AU
-        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.log(np.abs(V_m))), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
+        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, V_m, 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
         ax.set_zlim(ax.get_zlim()[::-1])
