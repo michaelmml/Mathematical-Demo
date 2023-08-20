@@ -152,7 +152,7 @@ def gravitationalpotential():
         contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
-        ax.set_zlim(ax.get_zlim()[::1])
+        ax.set_zlim(ax.get_zlim()[::-1])
         
         # Remove axis labels
         ax.set_xticklabels([])
