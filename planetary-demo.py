@@ -128,7 +128,7 @@ def gravitationalpotential():
         # V_m[mask] = np.nan
 
         ####### Compute GR potential V (Schwarzschild approximation) in meters and take into account of volume
-        V_m = potential(x_m, y_m, mass, radius * AU_TO_M, G)
+        V_m = potential(x_m, y_m, mass, radius * AU_TO_M)
         V_m[mask] = np.nan
         
         # Create 3D plot
