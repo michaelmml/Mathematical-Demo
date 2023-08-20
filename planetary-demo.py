@@ -151,10 +151,10 @@ def gravitationalpotential():
         fig.patch.set_facecolor('black')
         
         # Plot the surface in AU
-        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
+        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.log(np.abs(V_m))), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
         # Add contours to the plot in AU
-        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
+        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.log(np.abs(V_m))), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
         ax.set_zlim(ax.get_zlim()[::-1])
