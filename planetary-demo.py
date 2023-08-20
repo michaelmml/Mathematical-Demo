@@ -146,13 +146,13 @@ def gravitationalpotential():
         fig.patch.set_facecolor('black')
         
         # Plot the surface in AU
-        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, V_m, cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
+        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
         # Add contours to the plot in AU
-        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, V_m, 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
+        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
-        ax.set_zlim(ax.get_zlim()[::-1])
+        ax.set_zlim(ax.get_zlim()[::1])
         
         # Remove axis labels
         ax.set_xticklabels([])
@@ -192,13 +192,13 @@ def potential(x, y, mass, radius):
         V[outside_mask] = -G * mass / r[outside_mask] + (G * mass * r_s) / (2 * r[outside_mask]**2)
 
         # Inside the sphere (uniform density)
-        inside_mask = r < radius
-        V[inside_mask] = -(G * mass / (2 * radius**3)) * (3 * radius**2 - r[inside_mask]**2)
+        # inside_mask = r < radius
+        # V[inside_mask] = -(G * mass / (2 * radius**3)) * (3 * radius**2 - r[inside_mask]**2)
 
-        # Inside the sphere (numerical integration)
-        # for i in np.ndindex(r.shape):
-        #        if r[i] < radius:
-        #           V[i], _ = quad(integrand, 0, r[i], args=(density,))
+        Inside the sphere (numerical integration)
+        for i in np.ndindex(r.shape):
+                if r[i] < radius:
+                        V[i], _ = quad(integrand, 0, r[i], args=(density,))
 
         return V
 
