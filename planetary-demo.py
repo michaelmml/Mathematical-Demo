@@ -134,7 +134,7 @@ def gravitationalpotential():
         ####### Compute GR potential V (Schwarzschild approximation) in meters and take into account of volume
         V_m1 = potential(x_m, y_m, mass, radius * AU_TO_M)
         V_m2 = potential(x_m - AU_TO_M, y_m, mass2, radius2 * AU_TO_M)  # Assuming 1 AU distance between objects
-        V_m = V_m1 + V_m2
+        V_m = np.log(np.abs(V_m1 + V_m2))
         V_m[mask] = np.nan
         
         # Create 3D plot
@@ -151,10 +151,10 @@ def gravitationalpotential():
         fig.patch.set_facecolor('black')
         
         # Plot the surface in AU
-        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
+        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, V_m, cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
         # Add contours to the plot in AU
-        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
+        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, V_m, 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
         ax.set_zlim(ax.get_zlim()[::-1])
