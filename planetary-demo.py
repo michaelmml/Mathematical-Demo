@@ -94,11 +94,12 @@ def gravitationalpotential():
         selected_object1 = st.selectbox('Select a second celestial object:', list(objects.keys()))
         mass_scaler1 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
         radius_scaler1 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
-        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10.0, value=1.0)        
-        selected_object2 = st.selectbox('Select a second celestial object:', list(objects.keys()))
+        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10.0, value=1.0)       
+        
+        selected_object2 = st.selectbox('Select a third celestial object:', list(objects.keys()))
         mass_scaler2 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
         radius_scaler2 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
-        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10.0, value=1.0)        
+        dist_scaler2 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10.0, value=1.0)        
         
         # Corresponding mass and radius of selected object
         mass = objects[selected_object]['mass']
@@ -142,8 +143,8 @@ def gravitationalpotential():
 
         ####### Compute GR potential V (Schwarzschild approximation) in meters and take into account of volume
         V_m0 = potential(x_m, y_m, mass, radius * AU_TO_M)
-        V_m1 = potential(x_m - (AU_TO_M*dist_scaler1), y_m, mass1, radius1 * AU_TO_M)  # Assuming 1 AU distance between objects
-        V_m2 = potential(x_m - (AU_TO_M*dist_scaler2), y_m, mass2, radius2 * AU_TO_M)  # Assuming 1 AU distance between objects
+        V_m1 = potential(x_m - (AU_TO_M*dist_scaler1), y_m, mass1, radius1 * AU_TO_M) 
+        V_m2 = potential(x_m, y_m - (AU_TO_M*dist_scaler2), mass2, radius2 * AU_TO_M)  
         V_m = np.log(np.abs(V_m0 + V_m1 + V_m2))
         V_m[mask] = np.nan
         
