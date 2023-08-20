@@ -84,10 +84,10 @@ def gravitationalpotential():
         AU_TO_M = 149597870700
         # Selection of celestial objects with corresponding mass and radius in AU
         objects = {
-            'Sun0': {'mass': 1.989e30, 'radius': 696340000 / AU_TO_M},
-            'Sun1': {'mass': 1.989e29, 'radius': 696340000 / AU_TO_M},
-            'Sun2': {'mass': 1.989e29, 'radius': 696340000 / AU_TO_M},
-            'Sun3': {'mass': 1.989e29, 'radius': 696340000 / AU_TO_M}
+            'Sun0': {'mass': 1.989e30, 'radius': 6963400000 / AU_TO_M},
+            'Sun1': {'mass': 1.989e29, 'radius': 6963400000 / AU_TO_M},
+            'Sun2': {'mass': 1.989e29, 'radius': 6963400000 / AU_TO_M},
+            'Sun3': {'mass': 1.989e29, 'radius': 6963400000 / AU_TO_M}
         }
         
         selected_object = st.selectbox('Select a celestial object:', list(objects.keys()))
@@ -151,10 +151,10 @@ def gravitationalpotential():
         fig.patch.set_facecolor('black')
         
         # Plot the surface in AU
-        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.log(np.log(np.abs(V_m)))), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
+        surface = ax.plot_surface(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), cmap='viridis', linewidth=0, antialiased=True, alpha=0.5)
         
         # Add contours to the plot in AU
-        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.log(np.log(np.abs(V_m)))), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
+        contours = ax.contour(x_m / AU_TO_M, y_m / AU_TO_M, np.log(np.abs(V_m)), 10, colors='white', linestyles='solid', offset=np.nanmin(V_m))
         
         # Flip the z-axis
         ax.set_zlim(ax.get_zlim()[::-1])
