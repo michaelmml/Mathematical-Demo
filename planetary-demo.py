@@ -84,17 +84,20 @@ def gravitationalpotential():
         AU_TO_M = 149597870700
         # Selection of celestial objects with corresponding mass and radius in AU
         objects = {
-            'Earth': {'mass': 5.972e24, 'radius': 6371000 / AU_TO_M},
-            'Jupiter': {'mass': 1.898e27, 'radius': 69911000 / AU_TO_M},
-            'Sun': {'mass': 1.989e30, 'radius': 696340000 / AU_TO_M},
-            'VY Canis Majoris': {'mass': 3.385e31, 'radius': 1.420e9 / AU_TO_M}
+            'Sun0': {'mass': 1.989e30, 'radius': 696340000 / AU_TO_M},
+            'Sun1': {'mass': 1.989e29, 'radius': 696340000 / AU_TO_M},
+            'Sun2': {'mass': 1.989e29, 'radius': 696340000 / AU_TO_M},
+            'Sun3': {'mass': 1.989e29, 'radius': 696340000 / AU_TO_M}
         }
         
         selected_object = st.selectbox('Select a celestial object:', list(objects.keys()))
+        selected_object2 = st.selectbox('Select a second celestial object:', list(objects.keys()))
         
         # Corresponding mass and radius of selected object
         mass = objects[selected_object]['mass']
         radius = objects[selected_object]['radius']
+        mass2 = objects[selected_object2]['mass']
+        radius2 = objects[selected_object2]['radius']
         
         # Gravitational constant
         G = 6.67430e-11
@@ -103,8 +106,8 @@ def gravitationalpotential():
         c = 299792458
         
         # Slider for x and y axis ranges in AU
-        x_range = st.slider('Select X-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
-        y_range = st.slider('Select Y-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
+        x_range = st.slider('Select X-Axis Range (AU):', -2.0, 2.0, (-0.5, 0.5), step=0.01)
+        y_range = st.slider('Select Y-Axis Range (AU):', -2.0, 2.0, (-0.5, 0.5), step=0.01)
         
         # Input for how many multiples of the radius to stop the plot
         radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=0.1, value=2.0, step=0.1)
@@ -129,7 +132,9 @@ def gravitationalpotential():
         # V_m[mask] = np.nan
 
         ####### Compute GR potential V (Schwarzschild approximation) in meters and take into account of volume
-        V_m = potential(x_m, y_m, mass, radius * AU_TO_M)
+        V_m1 = potential(x_m, y_m, mass, radius * AU_TO_M)
+        V_m2 = potential(x_m - AU_TO_M, y_m, mass2, radius2 * AU_TO_M)  # Assuming 1 AU distance between objects
+        V_m = V_m1 + V_m2
         V_m[mask] = np.nan
         
         # Create 3D plot
