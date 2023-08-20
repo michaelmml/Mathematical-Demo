@@ -168,11 +168,12 @@ def gravitationalpotential():
 
 # Function to compute m(r)
 def m(r, density):
-    return (4/3) * np.pi * density * r**3
+        return (4/3) * np.pi * density * r**3
 
 # Function to integrate
 def integrand(r, density):
-    return G * m(r, density) / r
+        G = 6.67430e-11  # m^3 kg^-1 s^-2, gravitational constant
+        return G * m(r, density) / r
 
 # Compute gravitational potential
 def potential(x, y, mass, radius):
