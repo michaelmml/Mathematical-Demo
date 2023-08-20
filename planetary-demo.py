@@ -107,7 +107,7 @@ def gravitationalpotential():
         y_range = st.slider('Select Y-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
         
         # Input for how many multiples of the radius to stop the plot
-        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=0, value=2)
+        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=0, value=2, step=0.1)
         
         # Convert selected ranges from AU to meters
         x_range_m = [r * AU_TO_M for r in x_range]
