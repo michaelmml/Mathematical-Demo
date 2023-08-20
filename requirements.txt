@@ -3,3 +3,4 @@ Streamlit
 Matplotlib
 Seaborn
 numpy
+scipy
