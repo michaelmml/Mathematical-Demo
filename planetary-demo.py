@@ -84,20 +84,29 @@ def gravitationalpotential():
         AU_TO_M = 149597870700
         # Selection of celestial objects with corresponding mass and radius in AU
         objects = {
-            'Sun0': {'mass': 1.989e30, 'radius': 19634000000 / AU_TO_M},
-            'Sun1': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M},
-            'Sun2': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M},
-            'Sun3': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M}
+            'Star': {'mass': 1.989e30, 'radius': 19634000000 / AU_TO_M},
+            'Object1': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M},
+            'Object2': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M},
         }
         
         selected_object = st.selectbox('Select a celestial object:', list(objects.keys()))
+        
+        selected_object1 = st.selectbox('Select a second celestial object:', list(objects.keys()))
+        mass_scaler1 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10, value=1)
+        radius_scaler1 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10, value=1)
+        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10, value=1)        
         selected_object2 = st.selectbox('Select a second celestial object:', list(objects.keys()))
+        mass_scaler2 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10, value=1)
+        radius_scaler2 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10, value=1)
+        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10, value=1)        
         
         # Corresponding mass and radius of selected object
         mass = objects[selected_object]['mass']
         radius = objects[selected_object]['radius']
-        mass2 = objects[selected_object2]['mass']
-        radius2 = objects[selected_object2]['radius']
+        mass1 = objects[selected_object1]['mass']*mass_scaler1
+        radius1 = objects[selected_object1]['radius']*radius_scaler1
+        mass2 = objects[selected_object2]['mass']*mass_scaler2
+        radius2 = objects[selected_object2]['radius']*radius_scaler2       
         
         # Gravitational constant
         G = 6.67430e-11
@@ -110,7 +119,7 @@ def gravitationalpotential():
         y_range = st.slider('Select Y-Axis Range (AU):', -2.0, 2.0, (-0.5, 0.5), step=0.01)
         
         # Input for how many multiples of the radius to stop the plot
-        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=0.0, value=2.0, step=0.1)
+        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=0.0, value=0.0, step=0.1)
         
         # Convert selected ranges from AU to meters
         x_range_m = [r * AU_TO_M for r in x_range]
@@ -132,9 +141,10 @@ def gravitationalpotential():
         # V_m[mask] = np.nan
 
         ####### Compute GR potential V (Schwarzschild approximation) in meters and take into account of volume
-        V_m1 = potential(x_m, y_m, mass, radius * AU_TO_M)
-        V_m2 = potential(x_m - AU_TO_M, y_m, mass2, radius2 * AU_TO_M)  # Assuming 1 AU distance between objects
-        V_m = np.log(np.abs(V_m1 + V_m2))
+        V_m0 = potential(x_m, y_m, mass, radius * AU_TO_M)
+        V_m1 = potential(x_m - (AU_TO_M*dist_scaler1), y_m, mass1, radius1 * AU_TO_M)  # Assuming 1 AU distance between objects
+        V_m2 = potential(x_m - (AU_TO_M*dist_scaler2), y_m, mass2, radius2 * AU_TO_M)  # Assuming 1 AU distance between objects
+        V_m = np.log(np.abs(V_m0 + V_m1 + V_m2))
         V_m[mask] = np.nan
         
         # Create 3D plot
