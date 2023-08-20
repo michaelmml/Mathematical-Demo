@@ -176,7 +176,7 @@ def potential(x, y, mass, radius, grav):
         
             # Inside the sphere
             inside_mask = ~outside_mask
-            V[inside_mask] = -grav * mass / (2 * radius**3) * (3 * radius**2 - r[inside_mask]**2)
+            V[inside_mask] = (grav * mass / (2 * radius**3)) * (3 * radius**2 - r[inside_mask]**2)
         
             return V
 
