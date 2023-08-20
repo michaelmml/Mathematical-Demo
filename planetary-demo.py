@@ -84,10 +84,10 @@ def gravitationalpotential():
         AU_TO_M = 149597870700
         # Selection of celestial objects with corresponding mass and radius in AU
         objects = {
-            'Sun0': {'mass': 1.989e30, 'radius': 6963400000 / AU_TO_M},
-            'Sun1': {'mass': 1.989e29, 'radius': 6963400000 / AU_TO_M},
-            'Sun2': {'mass': 1.989e29, 'radius': 6963400000 / AU_TO_M},
-            'Sun3': {'mass': 1.989e29, 'radius': 6963400000 / AU_TO_M}
+            'Sun0': {'mass': 1.989e30, 'radius': 19634000000 / AU_TO_M},
+            'Sun1': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M},
+            'Sun2': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M},
+            'Sun3': {'mass': 1.989e29, 'radius': 19634000000 / AU_TO_M}
         }
         
         selected_object = st.selectbox('Select a celestial object:', list(objects.keys()))
