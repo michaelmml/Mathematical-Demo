@@ -92,13 +92,13 @@ def gravitationalpotential():
         selected_object = st.selectbox('Select a celestial object:', list(objects.keys()))
         
         selected_object1 = st.selectbox('Select a second celestial object:', list(objects.keys()))
-        mass_scaler1 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10, value=1)
-        radius_scaler1 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10, value=1)
-        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10, value=1)        
+        mass_scaler1 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
+        radius_scaler1 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
+        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10.0, value=1.0)        
         selected_object2 = st.selectbox('Select a second celestial object:', list(objects.keys()))
-        mass_scaler2 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10, value=1)
-        radius_scaler2 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10, value=1)
-        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10, value=1)        
+        mass_scaler2 = st.slider('Object 1 Mass Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
+        radius_scaler2 = st.slider('Object 1 Radius Adjustment:', min_value=0.1, max_value=10.0, value=1.0)
+        dist_scaler1 = st.slider('Object 1 Distance Adjustment:', min_value=0.1, max_value=10.0, value=1.0)        
         
         # Corresponding mass and radius of selected object
         mass = objects[selected_object]['mass']
