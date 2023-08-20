@@ -106,7 +106,7 @@ def gravitationalpotential():
         y_range = st.slider('Select Y-Axis Range (AU):', -1.0, 1.0, (-0.5, 0.5), step=0.01)
         
         # Input for how many multiples of the radius to stop the plot
-        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=1, value=2)
+        radius_multiplier = st.number_input('Enter how many multiples of the radius to stop the plot:', min_value=0, value=2)
         
         # Convert selected ranges from AU to meters
         x_range_m = [r * AU_TO_M for r in x_range]
@@ -165,20 +165,37 @@ def gravitationalpotential():
         st.pyplot(fig)
 
 
+# Function to compute m(r)
+def m(r, density):
+    return (4/3) * np.pi * density * r**3
+
+# Function to integrate
+def integrand(r, density):
+    return G * m(r, density) / r
+
 # Compute gravitational potential
-def potential(x, y, mass, radius, grav):
-            r = np.sqrt(x**2 + y**2)
-            V = np.zeros_like(r)
-            
-            # Outside the sphere
-            outside_mask = r >= radius
-            V[outside_mask] = -grav * mass / r[outside_mask]
-        
-            # Inside the sphere
-            inside_mask = ~outside_mask
-            V[inside_mask] = (grav * mass / (2 * radius**3)) * (3 * radius**2 - r[inside_mask]**2)
-        
-            return V
+def potential(x, y, mass, radius):
+        # Constants
+        G = 6.67430e-11  # m^3 kg^-1 s^-2, gravitational constant
+        c = 2.998e8  # m/s, speed of light
+        AU_TO_M = 1.496e11 # 1 Astronomical Unit in meters
+        r = np.sqrt(x**2 + y**2)
+        density = mass / ((4/3) * np.pi * radius**3)
+
+        V = np.zeros_like(r)
+    
+        # Outside the sphere (Schwarzschild solution)
+        r_s = 2 * G * mass / c**2  # Schwarzschild radius
+        outside_mask = r >= radius
+        V[outside_mask] = -G * mass / r[outside_mask] + (G * mass * r_s) / (2 * r[outside_mask]**2)
+
+        # Inside the sphere (numerical integration)
+        for i in np.ndindex(r.shape):
+                if r[i] < radius:
+                    V[i], _ = quad(integrand, 0, r[i], args=(density,))
+
+        return V
+
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
