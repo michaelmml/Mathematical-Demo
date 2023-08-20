@@ -192,13 +192,13 @@ def potential(x, y, mass, radius):
         V[outside_mask] = -G * mass / r[outside_mask] + (G * mass * r_s) / (2 * r[outside_mask]**2)
 
         # Inside the sphere (uniform density)
-        # inside_mask = r < radius
-        # V[inside_mask] = -(G * mass / (2 * radius**3)) * (3 * radius**2 - r[inside_mask]**2)
+        inside_mask = r < radius
+        V[inside_mask] = -(G * mass / (2 * radius**3)) * (3 * radius**2 - r[inside_mask]**2)
 
         # Inside the sphere (numerical integration)
-        for i in np.ndindex(r.shape):
-                if r[i] < radius:
-                        V[i], _ = quad(integrand, 0, r[i], args=(density,))
+        # for i in np.ndindex(r.shape):
+        #         if r[i] < radius:
+        #                 V[i], _ = quad(integrand, 0, r[i], args=(density,))
 
         return V
 
