@@ -220,41 +220,36 @@ def potential(x, y, mass, radius):
         return V
 
 ######################### Quantum Mechanics
+# Wavefunction for ground state of hydrogen
 def wavefunction(r):
-        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2) # Bohr radius   
+        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         return (1 / np.sqrt(np.pi)) * (1 / a0)**(3/2) * np.exp(-r / a0)
-        
+
 # Probability density
 def probability_density(r):
         return np.abs(wavefunction(r))**2
 
 def schrodinger():
-        # Constants
-        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2) # Bohr radius    
-        # Wavefunction for ground state of hydrogen
-        
-        # Create a grid of points in space
+        # Create a grid of points in polar coordinates
+        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         r = np.linspace(0, 5 * a0, 100)
-        theta = np.linspace(0, np.pi, 100)
-        phi = np.linspace(0, 2 * np.pi, 100)
+        theta = np.linspace(0, 2 * np.pi, 100)
+        R, Theta = np.meshgrid(r, theta)
         
-        r, theta, phi = np.meshgrid(r, theta, phi)
-        
-        # Convert to Cartesian coordinates
-        x = r * np.sin(theta) * np.cos(phi)
-        y = r * np.sin(theta) * np.sin(phi)
-        z = r * np.cos(theta)
+        # Convert to Cartesian coordinates for 2D representation
+        X = R * np.cos(Theta)
+        Y = R * np.sin(Theta)
         
         # Evaluate the probability density
-        rho = probability_density(r)
+        rho = probability_density(R)
         
-        # Create a 3D plot
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(x, y, z, c=rho, cmap='viridis')
+        # Create a series of 2D contour plots
+        fig, ax = plt.subplots()
+        contour = ax.contourf(X, Y, rho, 100, cmap='viridis')
+        fig.colorbar(contour, ax=ax, label='Probability Density')
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
+        ax.set_title('Probability Density of Ground State Electron in Hydrogen Atom')
         
         # Display in Streamlit
         st.pyplot(fig)
