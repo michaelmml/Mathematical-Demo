@@ -258,9 +258,9 @@ def schrodinger():
             X = R * np.sin(Theta)
             Y = R * np.cos(Theta)
             
-            # Reflect the data across the x-axis
+            # Reflect the data
             ax.contourf(X, Y, rho, 100, cmap='viridis')
-            ax.contourf(X, -Y, rho, 100, cmap='viridis')
+            ax.contourf(-X, Y, rho, 100, cmap='viridis')
             
             ax.set_title(f"n={n}, l={l}, m={m}")
             ax.axis('equal')
