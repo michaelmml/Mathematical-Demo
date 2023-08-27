@@ -4,7 +4,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.integrate import quad
-from scipy.special import genlaguerre, factorial
+from scipy.special import genlaguerre, factorial, sph_harm
 from scipy.constants import epsilon_0, hbar, m_e, e
 
 def planetaryorbit():
