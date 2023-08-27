@@ -4,6 +4,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.integrate import quad
+from scipy.constants import epsilon_0, hbar, m_e, e
 
 def planetaryorbit():
         # Initialize REBOUND simulation
@@ -218,12 +219,51 @@ def potential(x, y, mass, radius):
 
         return V
 
+def schrodinger():
+        # Constants
+        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2) # Bohr radius
+        
+        # Wavefunction for ground state of hydrogen
+        def wavefunction(r):
+            return (1 / np.sqrt(np.pi)) * (1 / a0)**(3/2) * np.exp(-r / a0)
+        
+        # Probability density
+        def probability_density(r):
+            return np.abs(wavefunction(r))**2
+        
+        # Create a grid of points in space
+        r = np.linspace(0, 5 * a0, 100)
+        theta = np.linspace(0, np.pi, 100)
+        phi = np.linspace(0, 2 * np.pi, 100)
+        
+        r, theta, phi = np.meshgrid(r, theta, phi)
+        
+        # Convert to Cartesian coordinates
+        x = r * np.sin(theta) * np.cos(phi)
+        y = r * np.sin(theta) * np.sin(phi)
+        z = r * np.cos(theta)
+        
+        # Evaluate the probability density
+        rho = probability_density(r)
+        
+        # Create a 3D plot
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(x, y, z, c=rho, cmap='viridis')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        
+        # Display in Streamlit
+        st.pyplot(fig)
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
-page = st.sidebar.radio("Go to", ['Planetary Orbit', 'Gravitational Potential'])
+page = st.sidebar.radio("Go to", ['Planetary Orbit', 'Gravitational Potential', 'Quantum Probabilistic Space])
 
 if page == 'Planetary Orbit':
     planetaryorbit()
 elif page == 'Gravitational Potential':
     gravitationalpotential()
+elif page == 'Quantum Probabilistic Space':
+    schrodinger()
