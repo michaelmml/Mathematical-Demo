@@ -240,8 +240,8 @@ def probability_density(n, l, m, r, theta, phi):
 def schrodinger():
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         # Create a grid of points in polar coordinates
-        r = np.linspace(0, 5 * a0, 100)
-        theta = np.linspace(0, np.pi, 100)
+        r = np.linspace(0, 5 * a0, 200)
+        theta = np.linspace(0, np.pi, 200)
         R, Theta = np.meshgrid(r, theta)
         
         # States to consider in the 3x3 grid
