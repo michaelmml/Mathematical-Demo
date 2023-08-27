@@ -260,7 +260,7 @@ def schrodinger():
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
-page = st.sidebar.radio("Go to", ['Planetary Orbit', 'Gravitational Potential', 'Quantum Probabilistic Space])
+page = st.sidebar.radio("Go to", ['Planetary Orbit', 'Gravitational Potential', 'Quantum Probabilistic Space'])
 
 if page == 'Planetary Orbit':
     planetaryorbit()
