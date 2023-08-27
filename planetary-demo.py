@@ -240,12 +240,13 @@ def probability_density(n, l, m, r, theta, phi):
 def schrodinger():
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         # Create a grid of points in polar coordinates
-        r = np.linspace(0, 5 * a0, 200)
-        theta = np.linspace(0, np.pi, 200)
+
+        r = np.linspace(0, 10 * a0, 200)  # Increased extent and resolution
+        theta = np.linspace(0, np.pi, 200)  # Increased resolution for smooth reflection
         R, Theta = np.meshgrid(r, theta)
         
         # States to consider in the 3x3 grid
-        states = [(4, 3, 0), (4, 3, 1), (4, 3, 2),
+        states = [(1, 0, 0), (2, 0, 0), (2, 1, 0),
                   (2, 1, 1), (3, 0, 0), (3, 1, 0),
                   (3, 1, 1), (3, 2, 0), (3, 2, 1)]
         
@@ -257,17 +258,14 @@ def schrodinger():
             X = R * np.sin(Theta)
             Y = R * np.cos(Theta)
             
-            # Reflect the data
+            # Reflect the data across the x-axis
             ax.contourf(X, Y, rho, 100, cmap='viridis')
-            ax.contourf(-X, Y, rho, 100, cmap='viridis')
+            ax.contourf(X, -Y, rho, 100, cmap='viridis')
             
             ax.set_title(f"n={n}, l={l}, m={m}")
             ax.axis('equal')
         
         plt.tight_layout()
-        
-        # Display in Streamlit
-        st.pyplot(fig)
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
