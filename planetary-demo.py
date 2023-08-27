@@ -266,6 +266,8 @@ def schrodinger():
             ax.axis('equal')
         
         plt.tight_layout()
+        # Display in Streamlit
+        st.pyplot(fig)
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
