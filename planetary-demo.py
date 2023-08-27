@@ -254,7 +254,7 @@ def schrodinger():
         fig, axs = plt.subplots(3, 3, figsize=(15, 15))
         
         for ax, (n, l, m) in zip(axs.flat, states):
-            D = density(n, l, m, R, Theta, Phi)
+            D = probability_density(n, l, m, R, Theta, Phi)
             ax.contourf(R[:,:,50] * np.sin(Theta[:,:,50]), R[:,:,50] * np.cos(Theta[:,:,50]), D[:,:,50], 100, cmap='viridis')
             ax.set_title(f"n={n}, l={l}, m={m}")
             ax.set_xlim([-5*a0, 5*a0])
