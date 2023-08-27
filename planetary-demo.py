@@ -253,7 +253,7 @@ def schrodinger():
             states_inputs.append((n, l, m))
         
         # Radial extent input
-        radial_extent = st.slider('Select Radial Extent (Bohr Radii):', 1, 50, 20)
+        radial_extent = st.slider('Select Radial Extent (Bohr Radii):', 10, 50, 20)
         
         # Create a grid of points in polar coordinates        
         r = np.linspace(0, radial_extent * a0, radial_extent*20)  # Increased extent and resolution
