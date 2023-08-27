@@ -221,6 +221,7 @@ def potential(x, y, mass, radius):
 
 ######################### Quantum Mechanics
 def wavefunction(r):
+        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2) # Bohr radius   
         return (1 / np.sqrt(np.pi)) * (1 / a0)**(3/2) * np.exp(-r / a0)
         
 # Probability density
