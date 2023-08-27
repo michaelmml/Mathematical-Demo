@@ -239,29 +239,31 @@ def probability_density(n, l, m, r, theta, phi):
 
 def schrodinger():
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
-        # Create a grid of points in spherical coordinates
-        r = np.linspace(0, 5 * a0, 200)
-        theta = np.linspace(0, np.pi, 200)
-        phi = np.linspace(0, 2 * np.pi, 200)
-        R, Theta, Phi = np.meshgrid(r, theta, phi, indexing='ij')
+        # Create a grid of points in polar coordinates
+        r = np.linspace(0, 5 * a0, 100)
+        theta = np.linspace(0, np.pi, 100)
+        phi = 0  # We can fix phi since we're doing a 2D slice at phi=0
+        R, Theta = np.meshgrid(r, theta)
         
         # States to consider in the 3x3 grid
         states = [(1, 0, 0), (2, 0, 0), (2, 1, 0),
                   (2, 1, 1), (3, 0, 0), (3, 1, 0),
                   (3, 1, 1), (3, 2, 0), (3, 2, 1)]
-
-        # Plot
+        
+        # Create a 3x3 grid of contour plots
         fig, axs = plt.subplots(3, 3, figsize=(15, 15))
         
         for ax, (n, l, m) in zip(axs.flat, states):
-            D = probability_density(n, l, m, R, Theta, Phi)
-            ax.contourf(R[:,:,50] * np.sin(Theta[:,:,50]), R[:,:,50] * np.cos(Theta[:,:,50]), D[:,:,50], 100, cmap='viridis')
+            rho = probability_density(n, l, m, R, Theta, phi)
+            X = R * np.sin(Theta)
+            Y = R * np.cos(Theta)
+            contour = ax.contourf(X, Y, rho, 100, cmap='viridis')
             ax.set_title(f"n={n}, l={l}, m={m}")
-            ax.set_xlim([-5*a0, 5*a0])
-            ax.set_ylim([-5*a0, 5*a0])
             ax.axis('equal')
         
         plt.tight_layout()
+        
+        # Display in Streamlit
         st.pyplot(fig)
 
 ######################### Navigation
