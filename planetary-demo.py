@@ -238,7 +238,7 @@ def probability_density(n, l, m, r, theta, phi):
         return np.abs(psi)**2
 
 def schrodinger():
-        st.title('Probabilistic Space of Electrons in a Hydrogen Atom')
+        st.title('Probabilistic Space of an Electron in a Hydrogen Atom')
         st.write("Orbitals of electrons based on wavefunction for different energy states using Schrodinger's Equation. Probability density is calculated based on the Born Interpretation and is plotted onto a grid.")
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         
@@ -283,7 +283,7 @@ def schrodinger():
         st.pyplot(fig)
 
 ######################### Navigation
-st.sidebar.title('Maths-Demo')
+st.sidebar.title('Mathematics Demonstrations')
 page = st.sidebar.radio("Go to", ['Quantum Probabilistic Space','Gravitational Potential','Planetary Orbit'])
 
 if page == 'Quantum Probabilistic Space':
