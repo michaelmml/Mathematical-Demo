@@ -238,6 +238,7 @@ def probability_density(n, l, m, r, theta, phi):
         return np.abs(psi)**2
 
 def schrodinger():
+        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         # Create a grid of points in spherical coordinates
         r = np.linspace(0, 5 * a0, 200)
         theta = np.linspace(0, np.pi, 200)
