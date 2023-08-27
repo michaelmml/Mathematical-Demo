@@ -222,13 +222,15 @@ def potential(x, y, mass, radius):
 
 ######################### Quantum Mechanics
 # Define wavefunctions for different energy states of hydrogen atom
+
 def wavefunction(n, l, m, r, theta, phi):
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         rho = 2 * r / (n * a0)
         L = genlaguerre(n-l-1, 2*l+1)
-        Y = np.sqrt((2*l+1)*factorial(l-abs(m))/(4*np.pi*factorial(l+abs(m)))) * np.exp(1j*m*phi) * np.legendre(l, np.cos(theta))
+        Y = sph_harm(m, l, phi, theta)  # Note: sph_harm's arguments are m, l, phi, theta
         R = np.sqrt((2/n/a0)**3 * factorial(n-l-1)/(2*n*factorial(n+l))) * np.exp(-rho/2) * rho**l * L(rho)
         return R * Y
+
 
 # Probability density
 def probability_density(n, l, m, r, theta, phi):
