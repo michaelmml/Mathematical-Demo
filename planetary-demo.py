@@ -219,17 +219,18 @@ def potential(x, y, mass, radius):
 
         return V
 
+######################### Quantum Mechanics
+def wavefunction(r):
+        return (1 / np.sqrt(np.pi)) * (1 / a0)**(3/2) * np.exp(-r / a0)
+        
+# Probability density
+def probability_density(r):
+        return np.abs(wavefunction(r))**2
+
 def schrodinger():
         # Constants
-        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2) # Bohr radius
-        
+        a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2) # Bohr radius    
         # Wavefunction for ground state of hydrogen
-        def wavefunction(r):
-            return (1 / np.sqrt(np.pi)) * (1 / a0)**(3/2) * np.exp(-r / a0)
-        
-        # Probability density
-        def probability_density(r):
-            return np.abs(wavefunction(r))**2
         
         # Create a grid of points in space
         r = np.linspace(0, 5 * a0, 100)
