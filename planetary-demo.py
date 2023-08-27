@@ -242,8 +242,7 @@ def schrodinger():
         # Create a grid of points in polar coordinates
         r = np.linspace(0, 5 * a0, 100)
         theta = np.linspace(0, np.pi, 100)
-        phi_values = np.linspace(0, 2*np.pi, 100)  # Cover the entire range of phi
-        R, Theta, Phi = np.meshgrid(r, theta, phi_values)
+        R, Theta = np.meshgrid(r, theta)
         
         # States to consider in the 3x3 grid
         states = [(1, 0, 0), (2, 0, 0), (2, 1, 0),
@@ -252,12 +251,16 @@ def schrodinger():
         
         # Create a 3x3 grid of contour plots
         fig, axs = plt.subplots(3, 3, figsize=(15, 15))
-
+        
         for ax, (n, l, m) in zip(axs.flat, states):
-            rho = np.mean(probability_density(n, l, m, R, Theta, Phi), axis=2)  # Average over all phi values
-            X = R[:, :, 0] * np.sin(Theta[:, :, 0])
-            Y = R[:, :, 0] * np.cos(Theta[:, :, 0])
-            contour = ax.contourf(X, Y, rho, 100, cmap='viridis')
+            rho = probability_density(n, l, m, R, Theta, 0)
+            X = R * np.sin(Theta)
+            Y = R * np.cos(Theta)
+            
+            # Reflect the data
+            ax.contourf(X, Y, rho, 100, cmap='viridis')
+            ax.contourf(-X, Y, rho, 100, cmap='viridis')
+            
             ax.set_title(f"n={n}, l={l}, m={m}")
             ax.axis('equal')
         
