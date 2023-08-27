@@ -246,8 +246,8 @@ def schrodinger():
 
         for i, default in enumerate(state_defaults, 1):
             n = st.selectbox(f'Select n for plot {i}', list(range(1, 5)), index=default[0]-1)
-            l = st.selectbox(f'Select l for plot {i}', list(range(0, n)), index=default[1]-1)
-            m = st.selectbox(f'Select m for plot {i}', list(range(0, l+1)), index=default[2]-1)
+            l = st.selectbox(f'Select l for plot {i}', list(range(0, n)), index=default[1])
+            m = st.selectbox(f'Select m for plot {i}', list(range(0, l+1)), index=default[2])
             states_inputs.append((n, l, m))
         
         # Radial extent input
