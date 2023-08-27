@@ -239,7 +239,7 @@ def probability_density(n, l, m, r, theta, phi):
 
 def schrodinger():
         st.title('Probabilistic Space of Electrons in a Hydrogen Atom')
-        st.write('Orbitals of electrons based on wavefunction for different energy states using Schrodinger's Equation. Probability density is calculated based on the Born Interpretation and is plotted onto a grid.')
+        st.write("Orbitals of electrons based on wavefunction for different energy states using Schrodinger's Equation. Probability density is calculated based on the Born Interpretation and is plotted onto a grid.")
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
         
         # Streamlit Inputs for the first 3 states
@@ -284,11 +284,11 @@ def schrodinger():
 
 ######################### Navigation
 st.sidebar.title('Maths-Demo')
-page = st.sidebar.radio("Go to", ['Planetary Orbit', 'Gravitational Potential', 'Quantum Probabilistic Space'])
+page = st.sidebar.radio("Go to", ['Quantum Probabilistic Space','Gravitational Potential','Planetary Orbit'])
 
-if page == 'Planetary Orbit':
-    planetaryorbit()
+if page == 'Quantum Probabilistic Space':
+    schrodinger()
 elif page == 'Gravitational Potential':
     gravitationalpotential()
-elif page == 'Quantum Probabilistic Space':
-    schrodinger()
+elif page == 'Planetary Orbit':
+    planetaryorbit()
