@@ -239,16 +239,27 @@ def probability_density(n, l, m, r, theta, phi):
 
 def schrodinger():
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
-        # Create a grid of points in polar coordinates
+        
+        # Streamlit Inputs for the first 3 states
+        state_defaults = [(4, 0, 0), (4, 2, 0), (4, 2, 1)]
+        states_inputs = []
 
-        r = np.linspace(0, 10 * a0, 200)  # Increased extent and resolution
-        theta = np.linspace(0, np.pi, 200)  # Increased resolution for smooth reflection
+        for i, default in enumerate(state_defaults, 1):
+            n = st.selectbox(f'Select n for plot {i}', list(range(1, 4)), index=default[0]-1)
+            l = st.selectbox(f'Select l for plot {i}', list(range(0, n)), index=default[1])
+            m = st.selectbox(f'Select m for plot {i}', list(range(0, l+1)), index=default[2])
+            states_inputs.append((n, l, m))
+
+        # Radial extent input
+        radial_extent = st.slider('Select Radial Extent (Bohr Radii):', 1, 50, 20)
+        
+        # Create a grid of points in polar coordinates        
+        r = np.linspace(0, radial_extent * a0, radial_extent*20)  # Increased extent and resolution
+        theta = np.linspace(0, np.pi, radial_extent*20)  # Increased resolution for smooth reflection
         R, Theta = np.meshgrid(r, theta)
         
         # States to consider in the 3x3 grid
-        states = [(4, 0, 0), (4, 2, 0), (4, 2, 1),
-                  (2, 1, 1), (3, 0, 0), (3, 1, 0),
-                  (3, 1, 1), (3, 2, 0), (3, 2, 1)]
+        states = states_inputs + [(2, 1, 1), (3, 0, 0), (3, 1, 0), (3, 1, 1), (3, 2, 0), (3, 2, 1)]
         
         # Create a 3x3 grid of contour plots
         fig, axs = plt.subplots(3, 3, figsize=(15, 15))
