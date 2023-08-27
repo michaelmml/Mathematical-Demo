@@ -4,6 +4,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.integrate import quad
+from scipy.special import genlaguerre, factorial
 from scipy.constants import epsilon_0, hbar, m_e, e
 
 def planetaryorbit():
@@ -220,36 +221,45 @@ def potential(x, y, mass, radius):
         return V
 
 ######################### Quantum Mechanics
-# Wavefunction for ground state of hydrogen
-def wavefunction(r):
+# Define wavefunctions for different energy states of hydrogen atom
+def wavefunction(n, l, m, r, theta, phi):
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
-        return (1 / np.sqrt(np.pi)) * (1 / a0)**(3/2) * np.exp(-r / a0)
+        rho = 2 * r / (n * a0)
+        L = genlaguerre(n-l-1, 2*l+1)
+        Y = np.sqrt((2*l+1)*factorial(l-abs(m))/(4*np.pi*factorial(l+abs(m)))) * np.exp(1j*m*phi) * np.legendre(l, np.cos(theta))
+        R = np.sqrt((2/n/a0)**3 * factorial(n-l-1)/(2*n*factorial(n+l))) * np.exp(-rho/2) * rho**l * L(rho)
+        return R * Y
 
 # Probability density
-def probability_density(r):
-        return np.abs(wavefunction(r))**2
+def probability_density(n, l, m, r, theta, phi):
+        psi = wavefunction(n, l, m, r, theta, phi)
+        return np.abs(psi)**2
 
 def schrodinger():
-        # Create a grid of points in polar coordinates
         a0 = 4 * np.pi * epsilon_0 * hbar**2 / (m_e * e**2)  # Bohr radius
+        # Create a grid of points in polar coordinates
         r = np.linspace(0, 5 * a0, 100)
-        theta = np.linspace(0, 2 * np.pi, 100)
+        theta = np.linspace(0, np.pi, 100)
+        phi = 0  # We can fix phi since we're doing a 2D slice at phi=0
         R, Theta = np.meshgrid(r, theta)
         
-        # Convert to Cartesian coordinates for 2D representation
-        X = R * np.cos(Theta)
-        Y = R * np.sin(Theta)
+        # States to consider in the 3x3 grid
+        states = [(1, 0, 0), (2, 0, 0), (2, 1, 0),
+                  (2, 1, 1), (3, 0, 0), (3, 1, 0),
+                  (3, 1, 1), (3, 2, 0), (3, 2, 1)]
         
-        # Evaluate the probability density
-        rho = probability_density(R)
+        # Create a 3x3 grid of contour plots
+        fig, axs = plt.subplots(3, 3, figsize=(15, 15))
         
-        # Create a series of 2D contour plots
-        fig, ax = plt.subplots()
-        contour = ax.contourf(X, Y, rho, 100, cmap='viridis')
-        fig.colorbar(contour, ax=ax, label='Probability Density')
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_title('Probability Density of Ground State Electron in Hydrogen Atom')
+        for ax, (n, l, m) in zip(axs.flat, states):
+            rho = probability_density(n, l, m, R, Theta, phi)
+            X = R * np.sin(Theta)
+            Y = R * np.cos(Theta)
+            contour = ax.contourf(X, Y, rho, 100, cmap='viridis')
+            ax.set_title(f"n={n}, l={l}, m={m}")
+            ax.axis('equal')
+        
+        plt.tight_layout()
         
         # Display in Streamlit
         st.pyplot(fig)
