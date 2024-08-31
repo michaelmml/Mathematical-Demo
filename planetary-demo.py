@@ -220,7 +220,7 @@ def potential(x, y, mass, radius):
 
         return V
 
-######################### Quantum Mechanics
+######################## Quantum Mechanics
 # Define wavefunctions for different energy states of hydrogen atom
 
 def wavefunction(n, l, m, r, theta, phi):
